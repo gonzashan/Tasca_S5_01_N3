@@ -1,5 +1,5 @@
-# Tasca_S5_01_N2 
-## Exercici API Rest connectada a una altra API Rest
+# Tasca_S5_01_N3  
+## Exercici API Rest connectada a una altra API Rest amb RestTemplate
 
 ![N|Solid](https://logistreak.com/images/icon/mysql.png)
 
@@ -13,7 +13,7 @@ Fent servir RestTemplate o WebClient, t’hauràs de connectar a l’API que has
 - JPA.
 - CRUD amb Spring.
 - MySQL.
-- RestTemplate y WebClient.
+- RestTemplate.
 
 Fent servir RestTemplate o WebClient, t’hauràs de connectar a l’API que has fet al nivell 2, per cridar i testar totes les peticions que permet aquesta API.
 
