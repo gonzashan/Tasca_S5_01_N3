@@ -39,7 +39,7 @@ public class ConsumeWebService {
      * @return Object
      */
     @RequestMapping(value = "/flor/clientFlorsGetOne/{id}", method = RequestMethod.GET)
-    public Object updateProduct(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> updateProduct(@PathVariable("id") Integer id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<FlorDTO> entity = new HttpEntity<FlorDTO>(headers);
@@ -48,11 +48,11 @@ public class ConsumeWebService {
             return restTemplate.exchange(
                     "http://localhost:9001/flor/getOne/" + id, HttpMethod.GET, entity, Object.class);
 
-        } catch (HttpClientErrorException | HttpServerErrorException e) {
-            return e.getLocalizedMessage();
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<ErrorDetails>
+                    (new ErrorDetails(e.getRawStatusCode(), "No se ha trobat la flor amb id: " + id),
+                            e.getStatusCode());
 
-        } catch (HttpMessageNotWritableException ed) {
-            return ed.getMessage();
         }
     }
 
@@ -85,7 +85,7 @@ public class ConsumeWebService {
  * @return Object
  */
     @RequestMapping(value = "/flor/clientFlorsUpdate", method = RequestMethod.PUT)
-    public Object updateProduct(@RequestBody FlorDTO product) {
+    public ResponseEntity<?> updateProduct(@RequestBody FlorDTO product) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<FlorDTO> entity = new HttpEntity<FlorDTO>(product, headers);
@@ -95,10 +95,9 @@ public class ConsumeWebService {
                     "http://localhost:9001/flor/update", HttpMethod.PUT, entity, String.class);
 
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            return e.getLocalizedMessage();
-
-        } catch (HttpMessageNotWritableException ed) {
-            return ed.getMessage();
+            return new ResponseEntity<ErrorDetails>
+                    (new ErrorDetails(e.getRawStatusCode(), "No se ha pogut actualizar el registre."),
+                            e.getStatusCode());
         }
 
     }
@@ -109,7 +108,7 @@ public class ConsumeWebService {
      * @return Object
      */
     @RequestMapping(value = "/flor/clientFlorsDelete/{id}", method = RequestMethod.DELETE)
-    public Object deleteProduct(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Integer id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<FlorDTO> entity = new HttpEntity<FlorDTO>(headers);
@@ -119,10 +118,9 @@ public class ConsumeWebService {
                     "http://localhost:9001/flor/delete/" + id, HttpMethod.DELETE, entity, String.class);
 
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            return e.getLocalizedMessage();
-
-        } catch (HttpMessageNotWritableException ed) {
-            return ed.getMessage();
+            return new ResponseEntity<ErrorDetails>
+                    (new ErrorDetails(e.getRawStatusCode(), "No se ha pogut eliminar la flor nova amb id: " + id),
+                            e.getStatusCode());
         }
 
     }
